@@ -8,6 +8,9 @@ class Area
 {
 public:
     Area(const string& description) : description(description) {}
+    const string getDesc(){
+        return description;
+    }
 
 private:
     const string description;
