@@ -71,7 +71,14 @@ void Game::run()
                 selected_direction = i;
             }
         }
-        player.move_to(selected_direction);
+        if(selected_direction > -1) {
+            player.move_to(selected_direction);
+        } else if(userInput == "help" || userInput == "h"){
+            std::cout << "HELP: Enter direction (North, East, South or West) or their first letter to move into";
+            std::cout << " that direction." << endl;
+        } else {
+            std::cout << "Your command is not understood, please try again." << endl;
+        }
     }
 }
 
