@@ -8,11 +8,15 @@ Room::Room(Area* area) {
     this->area = area;
 }
 
+Area *Room::get_area() {
+    return area;
+}
+
 void Room::set_connected_rooms(Room **conn_rooms, int conn_room_size) {
     for(int i = 0; i < conn_room_size; ++i){
-        if(*conn_rooms != nullptr){
-            std::cout << *conn_rooms << std::endl;
-        }
+//        if(*conn_rooms != nullptr){
+//            std::cout << *conn_rooms << std::endl;
+//        }
         connected_rooms[i] = *conn_rooms;
         ++conn_rooms;
     }
