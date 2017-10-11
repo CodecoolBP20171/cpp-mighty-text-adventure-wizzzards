@@ -34,6 +34,8 @@ void Player::throw_item(Item *item) {
     }
     inventory.erase(inventory.begin()+position);
     current_room->add_items(item);
+    sum_item_weight -= item->get_weight();
+    std::cout << "You dropped " << item->get_name() << "." << endl;
 }
 
 void Player::pick_item(Item *item) {
@@ -41,9 +43,10 @@ void Player::pick_item(Item *item) {
     if(MAX_INVENTORY_WEIGHT >= sum_item_weight + item->get_weight()) {
         current_room->remove_item(item);
         inventory.push_back(item);
-        std::cout << "You picked up the" << item->get_name() << endl;
+        sum_item_weight += item->get_weight();
+        std::cout << "You picked up the " << item->get_name() << "." <<endl;
     } else {
-        std::cout << "This is too heavy, you have to throw something to pick this up" << endl;
+        std::cout << "This is too heavy, you have to throw something to pick this up." << endl;
     }
 }
 

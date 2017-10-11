@@ -18,7 +18,7 @@ public:
 
 private:
     const vector<string> possible_direction = {"North", "East", "South", "West"};
-    const vector<string> actions = {"Help", "Pick up ", "Inventory"};
+    const vector<string> actions = {"Help", "Pick up ", "Inventory", "Throw "};
     vector<Area> areas; // areas has only non-changeable information
     vector<Room> rooms;
     vector<Item> items;
