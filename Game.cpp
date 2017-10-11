@@ -23,7 +23,7 @@ void Game::loadAreas()
 
 void Game::loadItems() {
     items.emplace_back("key", 10, "This is a key");
-    items.emplace_back("Club", 50, "One handed weepon");
+    items.emplace_back("club", 50, "One handed weepon");
 }
 
 
@@ -130,9 +130,27 @@ void Game::check_user_input(string& user_input) {
     }
     if(selected_direction > -1) {
         player.move_to(selected_direction);
-    } else if(user_input == "h" || user_input == "help"){
+    } else if(user_input == "h" || user_input == "help") {
         std::cout << "HELP: Enter direction (North, East, South or West) or their first letter to move into";
         std::cout << " that direction." << endl;
+    } else if(user_input.substr(0, actions[1].size()) == "pick up ") {
+        string item_name = user_input.substr(actions[1].size());
+        bool is_item_found = false;
+        for (auto room_item: player.get_current_room()->get_current_room_items()) {
+            if (room_item->get_name() == item_name) {
+                is_item_found = true;
+                player.pick_item(room_item);
+                break;
+            }
+        }
+        if (!is_item_found) {
+            std::cout << "This item is not present in the room" << endl;
+        }
+    } else if(user_input == "inventory"){
+        std::cout << "Your inventory contains the following items:" << endl;
+        for(auto inventory_item: player.get_inventory()){
+            std::cout << " - " << inventory_item->get_name() << ": " << inventory_item->get_description() << std::endl;
+        }
     } else {
         std::cout << "Your command is not understood, please try again." << endl;
     }

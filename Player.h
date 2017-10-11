@@ -17,6 +17,7 @@ public:
     Room* get_current_room();
     void pick_item(Item* item);
     void throw_item(Item* item);
+    vector<Item*> get_inventory();
 
 private:
     Room* current_room = NULL;
