@@ -17,7 +17,8 @@ public:
     void run();
 
 private:
-    const vector<string> dirs = {"North", "East", "South", "West"};
+    const vector<string> possible_direction = {"North", "East", "South", "West"};
+    const vector<string> actions = {"Help", "Pick up item", "Open Inventory"};
     vector<Area> areas; // areas has only non-changeable information
     vector<Room> rooms;
     vector<Item> items;
@@ -31,6 +32,8 @@ private:
     string get_directions();
     void connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_room, Room* w_room);
     bool step();
+    void check_user_input(string& user_input);
+    void print_room_items();
 };
 
 

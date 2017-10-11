@@ -32,8 +32,8 @@ void Room::add_items(Item* item) {
 
 void Room::remove_item(Item *item) {
     int position = 0;
-    for(auto &ite : room_items){
-        if(ite == item){
+    for(auto &room_item : room_items){
+        if(room_item == item){
             break;
         }
         ++position;

@@ -74,50 +74,25 @@ void Game::addItemsToRooms() {
 
 void Game::run()
 {
-    string userInput;
-//    std::cout << "this is the next room N: "<< rooms[0].get_next_room(direction::NORTH) << std::endl;
-//    std::cout << "current room: " << player.get_current_room() << endl;
-//    std::cout << "0th room: " << &rooms[0] << endl;
-//    player.move_to(direction::WEST);
+    string user_input;
     while(step()){
         std::cout << "You are in " << player.get_current_room()->get_area()->getDesc() << "." <<endl;
         std::cout << "You can go to" << get_directions() << endl;
-        if(0 < player.get_current_room()->get_current_room_items().size()){
-            cout << "Items in this room: ";
-            for(auto &rooms_item : player.get_current_room()->get_current_room_items()){
-                cout << rooms_item->get_name();
-            }
-            cout << endl;
-        }
+        print_room_items();
+
         std::cout << "Enter your command: " << endl;
-        std::getline(std::cin, userInput);
-        for(auto & c: userInput) c = tolower(c);
-        int selected_direction = -1;
-        for(int i=0; i<dirs.size(); i++){
-            string lowercase_dir = dirs[i];
-            for(auto & c: lowercase_dir) c = tolower(c);
-            if(userInput == lowercase_dir || (userInput[0] == lowercase_dir[0] && userInput.size() == 1)){
-                // goto direction
-                selected_direction = i;
-            }
-        }
-        if(selected_direction > -1) {
-            player.move_to(selected_direction);
-        } else if(userInput == "help" || userInput == "h"){
-            std::cout << "HELP: Enter direction (North, East, South or West) or their first letter to move into";
-            std::cout << " that direction." << endl;
-        } else {
-            std::cout << "Your command is not understood, please try again." << endl;
-        }
+        std::getline(std::cin, user_input);
+        for(auto & c: user_input) c = tolower(c);
+        check_user_input(user_input);
+
     }
 }
 
 string Game::get_directions() {
     string result = "";
-
     for(int i=0; i<4; i++){
         if(player.get_current_room()->get_next_room(i) != nullptr){
-            result += " " + dirs[i];
+            result += " " + possible_direction[i];
         }
     }
     return result;
@@ -131,4 +106,34 @@ bool Game::step()
     }
 
     return true;
+}
+
+void Game::print_room_items() {
+    if(0 < player.get_current_room()->get_current_room_items().size()){
+        cout << "Items in this room: ";
+        for(auto &rooms_item : player.get_current_room()->get_current_room_items()){
+            cout << rooms_item->get_name();
+        }
+        cout << endl;
+    }
+}
+
+void Game::check_user_input(string& user_input) {
+    int selected_direction = -1;
+    for(int i=0; i<possible_direction.size(); i++){
+        string lowercase_dir = possible_direction[i];
+        for(auto & c: lowercase_dir) c = tolower(c);
+        if(user_input == lowercase_dir || (user_input[0] == lowercase_dir[0] && user_input.size() == 1)){
+            // goto direction
+            selected_direction = i;
+        }
+    }
+    if(selected_direction > -1) {
+        player.move_to(selected_direction);
+    } else if(user_input == "h" || user_input == "help"){
+        std::cout << "HELP: Enter direction (North, East, South or West) or their first letter to move into";
+        std::cout << " that direction." << endl;
+    } else {
+        std::cout << "Your command is not understood, please try again." << endl;
+    }
 }

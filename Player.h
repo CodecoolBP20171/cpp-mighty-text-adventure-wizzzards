@@ -7,6 +7,7 @@
 
 
 #include "Room.h"
+#include "Item.h"
 
 class Player {
 public:
@@ -14,8 +15,14 @@ public:
     Player(Room* room);
     void move_to(int direction);
     Room* get_current_room();
+    void pick_item(Item* item);
+    void throw_item(Item* item);
+
 private:
     Room* current_room = NULL;
+    vector<Item*> inventory;
+    const static int MAX_INVENTORY_WEIGHT;
+    int sum_item_weight;
 };
 
 
