@@ -4,6 +4,7 @@
 void Game::init()
 {
     loadAreas();
+    loadItems();
     loadRooms();
     Player player(&rooms[0]);
     setPlayer(player);
@@ -19,6 +20,12 @@ void Game::loadAreas()
     areas.emplace_back("room 5");
     areas.emplace_back("room 6");
 }
+
+void Game::loadItems() {
+    items.emplace_back("key", 10, "This is a key");
+    items.emplace_back("Club", 50, "One handed weepon");
+}
+
 
 void Game::loadRooms() {
     // First init the rooms
@@ -40,11 +47,29 @@ void Game::loadRooms() {
     connect_rooms(4, &rooms[5], nullptr, nullptr, &rooms[3]);
     connect_rooms(5, &rooms[6], nullptr, &rooms[4], nullptr);
     connect_rooms(6, &rooms[7], nullptr, &rooms[5], nullptr);
-}
 
+    addItemsToRooms();
+}
 
 void Game::setPlayer(Player player) {
     this->player = player;
+}
+
+void Game::connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_room, Room* w_room) {
+    Room* direc[4];
+    direc[direction::NORTH] = n_room;
+    direc[direction::EAST] = e_room;
+    direc[direction::SOUTH] = s_room;
+    direc[direction::WEST] = w_room;
+
+    Room** p_dir = &direc[0];
+
+    rooms[room_number].set_connected_rooms(p_dir, sizeof(direc)/sizeof(direc[0]));
+}
+
+void Game::addItemsToRooms() {
+    rooms[0].add_items(&items[0]);
+    rooms[1].add_items(&items[1]);
 }
 
 void Game::run()
@@ -54,11 +79,16 @@ void Game::run()
 //    std::cout << "current room: " << player.get_current_room() << endl;
 //    std::cout << "0th room: " << &rooms[0] << endl;
 //    player.move_to(direction::WEST);
-//    std::cout << "current room: " << player.get_current_room() << endl;
-//    std::cout << "1th room: " << &rooms[1] << endl;
     while(step()){
         std::cout << "You are in " << player.get_current_room()->get_area()->getDesc() << "." <<endl;
         std::cout << "You can go to" << get_directions() << endl;
+        if(0 < player.get_current_room()->get_current_room_items().size()){
+            cout << "Items in this room: ";
+            for(auto &rooms_item : player.get_current_room()->get_current_room_items()){
+                cout << rooms_item->get_name();
+            }
+            cout << endl;
+        }
         std::cout << "Enter your command: " << endl;
         std::getline(std::cin, userInput);
         for(auto & c: userInput) c = tolower(c);
@@ -91,18 +121,6 @@ string Game::get_directions() {
         }
     }
     return result;
-}
-
-void Game::connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_room, Room* w_room) {
-    Room* direc[4];
-    direc[direction::NORTH] = n_room;
-    direc[direction::EAST] = e_room;
-    direc[direction::SOUTH] = s_room;
-    direc[direction::WEST] = w_room;
-
-    Room** p_dir = &direc[0];
-
-    rooms[room_number].set_connected_rooms(p_dir, sizeof(direc)/sizeof(direc[0]));
 }
 
 bool Game::step()

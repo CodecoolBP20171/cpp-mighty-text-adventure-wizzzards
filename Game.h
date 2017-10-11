@@ -5,6 +5,7 @@
 #include "Area.hpp"
 #include "Room.h"
 #include "Player.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -16,14 +17,17 @@ public:
     void run();
 
 private:
+    const vector<string> dirs = {"North", "East", "South", "West"};
     vector<Area> areas; // areas has only non-changeable information
     vector<Room> rooms;
-    vector<string> dirs = {"North", "East", "South", "West"};
+    vector<Item> items;
     Player player;
 
     void loadAreas();
     void loadRooms();
     void setPlayer(Player player);
+    void loadItems();
+    void addItemsToRooms();
     string get_directions();
     void connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_room, Room* w_room);
     bool step();
