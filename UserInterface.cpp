@@ -113,7 +113,7 @@ void UserInterface::interact_with_obstacles(Player &player, int selected_directi
     for(auto inventory_item: player.get_inventory()){
         if(inventory_item->use_item_on_obstacle() ==  current_room_obstacle(player, selected_direction)){
             cout << "// You used the " << inventory_item->get_name();
-            cout << "to go through " << inventory_item->use_item_on_obstacle()->get_name();
+            cout << " to go through the " << inventory_item->use_item_on_obstacle()->get_name();
             cout << " //" << endl;
 
             player.move_to(selected_direction);
@@ -138,7 +138,7 @@ void UserInterface::move_monster(vector<Monster> &monsters, vector<Room> &rooms)
             poss_directions.push_back(i);
         }
     }
-    srand (time(nullptr));
+    srand (time(NULL));
     int random_index = rand() % poss_directions.size();
     monsters[0].move_to(poss_directions[random_index]);
 }
