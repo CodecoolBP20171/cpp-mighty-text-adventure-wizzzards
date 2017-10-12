@@ -44,3 +44,4 @@ void Room::remove_item(Item *item) {
 vector<Item *> Room::get_current_room_items() {
     return room_items;
 }
+

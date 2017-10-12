@@ -39,7 +39,6 @@ void Player::throw_item(Item *item) {
 }
 
 void Player::pick_item(Item *item) {
-//    cout << "MAX: " << MAX_INVENTORY_WEIGHT <<
     if(MAX_INVENTORY_WEIGHT >= sum_item_weight + item->get_weight()) {
         current_room->remove_item(item);
         inventory.push_back(item);
@@ -52,4 +51,12 @@ void Player::pick_item(Item *item) {
 
 vector<Item *> Player::get_inventory() {
     return inventory;
+}
+
+void Player::set_player_helping_monster(bool b) {
+    is_player_helping_monster = b;
+}
+
+bool Player::get_player_helping_monster() {
+    return is_player_helping_monster;
 }

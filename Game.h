@@ -6,6 +6,7 @@
 #include "Room.h"
 #include "Player.h"
 #include "Item.h"
+#include "Monster.h"
 
 using namespace std;
 
@@ -22,7 +23,9 @@ private:
     vector<Area> areas; // areas has only non-changeable information
     vector<Room> rooms;
     vector<Item> items;
+    vector<Monster> monsters;
     Player player;
+
 
     void loadAreas();
     void loadRooms();
@@ -34,6 +37,10 @@ private:
     bool step();
     void check_user_input(string& user_input);
     void print_room_items();
+
+    void setMonsters(Monster monster);
+
+    void print_room_monsters();
 };
 
 

@@ -1,5 +1,7 @@
 #include <iostream>
+#include <algorithm>
 #include "Game.h"
+#include "Monster.h"
 
 void Game::init()
 {
@@ -8,6 +10,9 @@ void Game::init()
     loadRooms();
     Player player(&rooms[0]);
     setPlayer(player);
+    Monster monster(&rooms[4], "friendly monster");
+    monster.set_description(" It does not hurt you, but begs you to lead it to the wizzard lecture. Will you help?");
+    setMonsters(monster);
 }
 
 void Game::loadAreas()
@@ -47,12 +52,17 @@ void Game::loadRooms() {
     connect_rooms(4, &rooms[5], nullptr, nullptr, &rooms[3]);
     connect_rooms(5, &rooms[6], nullptr, &rooms[4], nullptr);
     connect_rooms(6, &rooms[7], nullptr, &rooms[5], nullptr);
+    connect_rooms(7, nullptr , nullptr, &rooms[6], nullptr);
 
     addItemsToRooms();
 }
 
 void Game::setPlayer(Player player) {
     this->player = player;
+}
+
+void Game::setMonsters(Monster monster) {
+    monsters.push_back(monster);
 }
 
 void Game::connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_room, Room* w_room) {
@@ -79,6 +89,7 @@ void Game::run()
         std::cout << "You are in " << player.get_current_room()->get_area()->getDesc() << "." <<endl;
         std::cout << "You can go to" << get_directions() << endl;
         print_room_items();
+        print_room_monsters();
 
         std::cout << "Enter your command: " << endl;
         std::getline(std::cin, user_input);
@@ -101,7 +112,7 @@ string Game::get_directions() {
 bool Game::step()
 {
     if(player.get_current_room() == &rooms.back()){
-        std:: cout << "Congratulations, you got out of the dungeon." << endl;
+        std:: cout << "Congratulations, you found your way to the classroom." << endl;
         return false;
     }
 
@@ -118,6 +129,14 @@ void Game::print_room_items() {
     }
 }
 
+void Game::print_room_monsters() {
+    // Currently only one monster is handled
+    if(monsters[0].get_current_room() == player.get_current_room()){
+        cout << "There is a " << monsters[0].get_name() << " in the room!" << monsters[0].get_description();
+        cout << endl;
+    }
+}
+
 void Game::check_user_input(string& user_input) {
     int selected_direction = -1;
     for(int i=0; i<possible_direction.size(); i++){
@@ -130,6 +149,19 @@ void Game::check_user_input(string& user_input) {
     }
     if(selected_direction > -1) {
         player.move_to(selected_direction);
+        if(player.get_player_helping_monster()){
+            monsters[0].move_to(selected_direction);
+        } else {
+            vector<int> possible_directions;
+            for(int i = 0; i < 4; i++){
+                if(monsters[0].get_current_room()->get_next_room(i) != nullptr){
+                    possible_directions.push_back(i);
+                }
+            }
+            srand (time(NULL));
+            int random_index = rand() % possible_directions.size();
+            monsters[0].move_to(possible_directions[random_index]);
+        }
     } else if(user_input == "h" || user_input == "help") {
         std::cout << "HELP: Enter direction (North, East, South or West) or their first letter to move into";
         std::cout << " that direction." << endl;
@@ -168,6 +200,14 @@ void Game::check_user_input(string& user_input) {
         if (!is_item_found) {
             std::cout << "This item is not present in your inventory." << endl;
         }
+    } else if(user_input == "yes" && monsters[0].get_current_room() == player.get_current_room() && !player.get_player_helping_monster()){
+        std::cout << "Cool, the monster will follow you!" << endl;
+        player.set_player_helping_monster(true);
+        monsters[0].set_description(" It is following you.");
+    } else if(user_input == "no" && monsters[0].get_current_room() == player.get_current_room() && !player.get_player_helping_monster()){
+        std::cout << "The monster starts to roam in the school hopelessly." << endl;
+        player.set_player_helping_monster(false);
+        monsters[0].set_description(" He is very sad.");
     } else {
         std::cout << "Your command is not understood, please try again." << endl;
     }

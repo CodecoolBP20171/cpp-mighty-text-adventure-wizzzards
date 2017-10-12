@@ -18,12 +18,15 @@ public:
     void pick_item(Item* item);
     void throw_item(Item* item);
     vector<Item*> get_inventory();
+    void set_player_helping_monster(bool b);
+    bool get_player_helping_monster();
 
 private:
     Room* current_room = NULL;
     vector<Item*> inventory;
     const static int MAX_INVENTORY_WEIGHT;
     int sum_item_weight;
+    bool is_player_helping_monster = false;
 };
 
 

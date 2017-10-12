@@ -10,6 +10,7 @@
 #include "Area.hpp"
 #include "Item.h"
 
+
 class Room {
 public:
     Room(Area* area);
@@ -19,6 +20,7 @@ public:
     void add_items(Item* item);
     void remove_item(Item* item);
     vector<Item*> get_current_room_items();
+
 
 private:
     Room* connected_rooms[4];
