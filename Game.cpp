@@ -144,12 +144,29 @@ void Game::check_user_input(string& user_input) {
             }
         }
         if (!is_item_found) {
-            std::cout << "This item is not present in the room" << endl;
+            std::cout << "This item is not present in the room." << endl;
         }
-    } else if(user_input == "inventory"){
-        std::cout << "Your inventory contains the following items:" << endl;
+    } else if(user_input == "inventory") {
+        if (player.get_inventory().size() > 0){
+            std::cout << "Your inventory contains the following items:" << endl;
+        } else {
+            std::cout << "Your inventory is empty." << endl;
+        }
         for(auto inventory_item: player.get_inventory()){
             std::cout << " - " << inventory_item->get_name() << ": " << inventory_item->get_description() << std::endl;
+        }
+    } else if(user_input.substr(0, actions[3].size()) == "throw ") {
+        string item_name = user_input.substr(actions[3].size());
+        bool is_item_found = false;
+        for (auto inventory_item: player.get_inventory()) {
+            if (inventory_item->get_name() == item_name) {
+                is_item_found = true;
+                player.throw_item(inventory_item);
+                break;
+            }
+        }
+        if (!is_item_found) {
+            std::cout << "This item is not present in your inventory." << endl;
         }
     } else {
         std::cout << "Your command is not understood, please try again." << endl;
