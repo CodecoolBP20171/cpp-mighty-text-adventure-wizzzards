@@ -24,24 +24,25 @@ void Game::run()
 
 void Game::loadAreas()
 {
-    areas.emplace_back("start room");
-    areas.emplace_back("room 1");
-    areas.emplace_back("room 2");
-    areas.emplace_back("room 3");
-    areas.emplace_back("room 4");
-    areas.emplace_back("room 5");
-    areas.emplace_back("room 6");
+    areas.emplace_back("your bedroom");
+    areas.emplace_back("the toilet of your apartment");
+    areas.emplace_back("the hall of your apartment'");
+    areas.emplace_back("an unknown room");
+    areas.emplace_back("the long room you ever seen");
+    areas.emplace_back("a room, with a lot of weirdly clean and shiny stares");
+    areas.emplace_back("- Soo many doors - an other one leeds to a corridor.. again..");
 }
 
 
 void Game::loadObstacles() {
-    obstacles.emplace_back("Locked Door", "You need a key to unlock it");
+    obstacles.emplace_back("Locked Door",
+                           "You do not remember the words to unlock it, you need your Wizzzard book to unlock it.");
 }
 
 void Game::loadItems() {
-    items.emplace_back("key", 10, "This is a key", &obstacles[0]);
-    items.emplace_back("club", 50, "One handed weepon");
-    items.emplace_back("pussy cat", 101, "Wormhole Generator");
+    items.emplace_back("wizzzard book", 10, "This is your not soo precious Wizzzard book", &obstacles[0]);
+    items.emplace_back("toilet pump", 50, "One handed weepon");
+    items.emplace_back("kitten", 99, "Wormhole Generator");
 }
 
 void Game::loadRooms() {
@@ -92,7 +93,7 @@ void Game::connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_ro
 void Game::addItemsToRooms() {
     rooms[0].add_items(&items[0]);
     rooms[1].add_items(&items[1]);
-    rooms[2].add_items(&items[2]);
+    rooms[4].add_items(&items[2]);
 }
 
 void Game::obstacles_to_rooms(int room_number, Obstacle* to_north, Obstacle* to_east, Obstacle* to_south, Obstacle* to_west) {
