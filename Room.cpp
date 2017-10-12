@@ -51,3 +51,4 @@ void Room::set_obstacle(Obstacle **obstacles, int conn_room_size) {
 Obstacle *Room::get_room_obstacles(int next_room_number) {
     return room_obstacles[next_room_number];
 }
+

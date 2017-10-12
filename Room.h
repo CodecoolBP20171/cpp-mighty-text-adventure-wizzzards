@@ -22,6 +22,7 @@ public:
     Obstacle* get_room_obstacles(int next_room_number);
     void set_obstacle(Obstacle** obstacles, int conn_room_size);
 
+
 private:
     Room* connected_rooms[4];
     Area* area;

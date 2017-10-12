@@ -9,6 +9,7 @@ set(SOURCE_FILES
         Game.h
         Player.h
         Player.cpp
-        main.cpp Room.cpp Room.h Item.cpp Item.h Obstacle.cpp Obstacle.h)
+        main.cpp Room.cpp Room.h Item.cpp Item.h Monster.cpp Monster.h Obstacle.cpp Obstacle.h)
+
 
 add_executable(cpp_mighty_text_adventure_wizzzards ${SOURCE_FILES})

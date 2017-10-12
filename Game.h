@@ -2,6 +2,8 @@
 #define CPP_2ND_TW_MIGHTY_TEXT_ADVENTURE_GAME_H
 
 #include "Player.h"
+#include "Monster.h"
+
 
 using namespace std;
 
@@ -18,8 +20,10 @@ private:
     vector<Area> areas; // areas has only non-changeable information
     vector<Room> rooms;
     vector<Item> items;
+    vector<Monster> monsters;
     vector<Obstacle> obstacles;
     Player player;
+
 
     void loadAreas();
     void loadItems();
@@ -33,6 +37,10 @@ private:
     bool step();
     void check_user_input(string& user_input);
     void print_room_items();
+
+    void setMonsters(Monster monster);
+
+    void print_room_monsters();
 };
 
 
