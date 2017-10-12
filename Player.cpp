@@ -1,9 +1,8 @@
 //
-
+// Created by eros on 10/10/17.
+//
 #include "Player.h"
 
-//
-// Created by eros on 10/10/17.
 const int Player::MAX_INVENTORY_WEIGHT = 100;
 
 Player::Player() {
@@ -35,7 +34,7 @@ void Player::throw_item(Item *item) {
     inventory.erase(inventory.begin()+position);
     current_room->add_items(item);
     sum_item_weight -= item->get_weight();
-    std::cout << "You dropped " << item->get_name() << "." << endl;
+    cout << "You dropped " << item->get_name() << "." << endl;
 }
 
 void Player::pick_item(Item *item) {
@@ -43,9 +42,9 @@ void Player::pick_item(Item *item) {
         current_room->remove_item(item);
         inventory.push_back(item);
         sum_item_weight += item->get_weight();
-        std::cout << "You picked up the " << item->get_name() << "." <<endl;
+        cout << "You picked up the " << item->get_name() << "." <<endl;
     } else {
-        std::cout << "This is too heavy, you have to throw something to pick this up." << endl;
+        cout << "This is too heavy, you have to throw something to pick this up." << endl;
     }
 }
 

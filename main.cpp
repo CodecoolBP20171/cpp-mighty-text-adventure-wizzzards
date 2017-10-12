@@ -4,7 +4,8 @@
 using namespace std;
 
 int main() {
-    cout << "Starting Mighty Text Adventure!" << endl;
+    cout << "You woke up with a start in your bed room at the Wizzzard University!" << endl;
+    cout << "You just realised you are late from" << endl;
 
     Game game;
     game.init();
