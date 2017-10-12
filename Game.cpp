@@ -1,11 +1,14 @@
+
 #include <iostream>
 #include <algorithm>
+
 #include "Game.h"
 #include "Monster.h"
 
 void Game::init()
 {
     loadAreas();
+    loadObstacles();
     loadItems();
     loadRooms();
     Player player(&rooms[0]);
@@ -13,6 +16,23 @@ void Game::init()
     Monster monster(&rooms[4], "friendly monster");
     monster.set_description(" It does not hurt you, but begs you to lead it to the wizzard lecture. Will you help?");
     setMonsters(monster);
+}
+
+void Game::run()
+{
+    string user_input;
+    while(step()){
+        std::cout << "You are in " << player.get_current_room()->get_area()->getDesc() << "." <<endl;
+        std::cout << "You can go to" << get_directions() << endl;
+        print_room_items();
+        print_room_monsters();
+      
+        std::cout << "Enter your command: " << endl;
+        std::getline(std::cin, user_input);
+        for(auto & c: user_input) c = tolower(c);
+        check_user_input(user_input);
+
+    }
 }
 
 void Game::loadAreas()
@@ -26,11 +46,11 @@ void Game::loadAreas()
     areas.emplace_back("room 6");
 }
 
+
 void Game::loadItems() {
-    items.emplace_back("key", 10, "This is a key");
+    items.emplace_back("key", 10, "This is a key", &obstacles[0]);
     items.emplace_back("club", 50, "One handed weepon");
 }
-
 
 void Game::loadRooms() {
     // First init the rooms
@@ -55,10 +75,7 @@ void Game::loadRooms() {
     connect_rooms(7, nullptr , nullptr, &rooms[6], nullptr);
 
     addItemsToRooms();
-}
-
-void Game::setPlayer(Player player) {
-    this->player = player;
+    obstacles_to_rooms(3, nullptr, &obstacles[0], nullptr, nullptr);
 }
 
 void Game::setMonsters(Monster monster) {
@@ -82,21 +99,24 @@ void Game::addItemsToRooms() {
     rooms[1].add_items(&items[1]);
 }
 
-void Game::run()
-{
-    string user_input;
-    while(step()){
-        std::cout << "You are in " << player.get_current_room()->get_area()->getDesc() << "." <<endl;
-        std::cout << "You can go to" << get_directions() << endl;
-        print_room_items();
-        print_room_monsters();
+void Game::setPlayer(Player player) {
+    this->player = player;
+}
 
-        std::cout << "Enter your command: " << endl;
-        std::getline(std::cin, user_input);
-        for(auto & c: user_input) c = tolower(c);
-        check_user_input(user_input);
 
-    }
+void Game::loadObstacles() {
+    obstacles.emplace_back("Locked Door", "You need a key to unlock it");
+}
+
+void Game::obstacles_to_rooms(int room_number, Obstacle* to_north, Obstacle* to_east, Obstacle* to_south, Obstacle* to_west) {
+    Obstacle* obs_direct[4];
+    obs_direct[direction::NORTH] = to_north;
+    obs_direct[direction::EAST] = to_east;
+    obs_direct[direction::SOUTH] = to_south;
+    obs_direct[direction::WEST] = to_west;
+
+    Obstacle** p_dir = &obs_direct[0];
+    rooms[room_number].set_obstacle(p_dir, sizeof(obs_direct)/sizeof(obs_direct[0]));
 }
 
 string Game::get_directions() {
@@ -147,8 +167,24 @@ void Game::check_user_input(string& user_input) {
             selected_direction = i;
         }
     }
-    if(selected_direction > -1) {
-        player.move_to(selected_direction);
+
+    if(selected_direction > -1 && player.get_current_room()->get_next_room(selected_direction)) {
+        if(player.get_current_room()->get_room_obstacles(selected_direction)){
+            bool you_can_go = false;
+            for(auto inventory_item: player.get_inventory()){
+                if(inventory_item->use_item_on_obstacle() ==  player.get_current_room()->get_room_obstacles(selected_direction)){
+                    cout << " You can go past " << endl;
+                    player.move_to(selected_direction);
+                    you_can_go = true;
+                }
+            }
+            if(!you_can_go){
+                cout<< player.get_current_room()->get_room_obstacles(selected_direction)->get_description() << endl;
+            }
+
+        } else {
+            player.move_to(selected_direction);
+        }
         if(player.get_player_helping_monster()){
             monsters[0].move_to(selected_direction);
         } else {
