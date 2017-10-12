@@ -50,6 +50,7 @@ void Game::loadAreas()
 void Game::loadItems() {
     items.emplace_back("key", 10, "This is a key", &obstacles[0]);
     items.emplace_back("club", 50, "One handed weepon");
+    items.emplace_back("cica", 15, "Wormhole Generator");
 }
 
 void Game::loadRooms() {
@@ -75,7 +76,15 @@ void Game::loadRooms() {
     connect_rooms(7, nullptr , nullptr, &rooms[6], nullptr);
 
     addItemsToRooms();
+    obstacles_to_rooms(0, nullptr, nullptr, nullptr, nullptr);
+    obstacles_to_rooms(1, nullptr, nullptr, nullptr, nullptr);
+    obstacles_to_rooms(2, nullptr, nullptr, nullptr, nullptr);
     obstacles_to_rooms(3, nullptr, &obstacles[0], nullptr, nullptr);
+    obstacles_to_rooms(4, nullptr, nullptr, nullptr, nullptr);
+    obstacles_to_rooms(5, nullptr, nullptr, nullptr, nullptr);
+    obstacles_to_rooms(6, nullptr, nullptr, nullptr, nullptr);
+    obstacles_to_rooms(7, nullptr, nullptr, nullptr, nullptr);
+
 }
 
 void Game::setMonsters(Monster monster) {
@@ -97,7 +106,7 @@ void Game::connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_ro
 void Game::addItemsToRooms() {
     rooms[0].add_items(&items[0]);
     rooms[1].add_items(&items[1]);
-    rooms[2].add_items(&items[1]);
+    rooms[2].add_items(&items[2]);
 }
 
 void Game::setPlayer(Player player) {
