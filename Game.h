@@ -1,11 +1,7 @@
 #ifndef CPP_2ND_TW_MIGHTY_TEXT_ADVENTURE_GAME_H
 #define CPP_2ND_TW_MIGHTY_TEXT_ADVENTURE_GAME_H
 
-#include <vector>
-#include "Area.hpp"
-#include "Room.h"
 #include "Player.h"
-#include "Item.h"
 
 using namespace std;
 
@@ -22,15 +18,18 @@ private:
     vector<Area> areas; // areas has only non-changeable information
     vector<Room> rooms;
     vector<Item> items;
+    vector<Obstacle> obstacles;
     Player player;
 
     void loadAreas();
+    void loadItems();
     void loadRooms();
     void setPlayer(Player player);
-    void loadItems();
-    void addItemsToRooms();
-    string get_directions();
     void connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_room, Room* w_room);
+    void addItemsToRooms();
+    void loadObstacles();
+    void obstacles_to_rooms(int room_number, Obstacle* to_north, Obstacle* to_east, Obstacle* to_south, Obstacle* to_west);
+    string get_directions();
     bool step();
     void check_user_input(string& user_input);
     void print_room_items();

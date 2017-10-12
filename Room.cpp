@@ -4,8 +4,7 @@
 
 #include "Room.h"
 
-Room::Room(Area* area) {
-    this->area = area;
+Room::Room(Area* area):area(area) {
 }
 
 Area *Room::get_area() {
@@ -14,9 +13,6 @@ Area *Room::get_area() {
 
 void Room::set_connected_rooms(Room **conn_rooms, int conn_room_size) {
     for(int i = 0; i < conn_room_size; ++i){
-//        if(*conn_rooms != nullptr){
-//            std::cout << *conn_rooms << std::endl;
-//        }
         connected_rooms[i] = *conn_rooms;
         ++conn_rooms;
     }
@@ -43,4 +39,15 @@ void Room::remove_item(Item *item) {
 
 vector<Item *> Room::get_current_room_items() {
     return room_items;
+}
+
+void Room::set_obstacle(Obstacle **obstacles, int conn_room_size) {
+    for(int i = 0; i < conn_room_size; ++i){
+        room_obstacles[i] = *obstacles;
+        ++obstacles;
+    }
+}
+
+Obstacle *Room::get_room_obstacles(int next_room_number) {
+    return room_obstacles[next_room_number];
 }
