@@ -13,7 +13,7 @@ void Game::init()
     loadRooms();
     Player player(&rooms[0]);
     setPlayer(player);
-    Monster monster(&rooms[4], "friendly monster");
+    Monster monster(&rooms[2], "friendly monster");
     monster.set_description(" It does not hurt you, but begs you to lead it to the wizzard lecture. Will you help?");
     setMonsters(monster);
 }
@@ -97,6 +97,7 @@ void Game::connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_ro
 void Game::addItemsToRooms() {
     rooms[0].add_items(&items[0]);
     rooms[1].add_items(&items[1]);
+    rooms[2].add_items(&items[1]);
 }
 
 void Game::setPlayer(Player player) {
@@ -143,7 +144,7 @@ void Game::print_room_items() {
     if(0 < player.get_current_room()->get_current_room_items().size()){
         cout << "Items in this room: ";
         for(auto &rooms_item : player.get_current_room()->get_current_room_items()){
-            cout << rooms_item->get_name();
+            cout << rooms_item->get_name() << " ";
         }
         cout << endl;
     }
@@ -196,6 +197,9 @@ void Game::check_user_input(string& user_input) {
             }
             srand (time(NULL));
             int random_index = rand() % possible_directions.size();
+            if(monsters[0].get_current_room() == &rooms.back()-1){
+                possible_directions.erase(std::remove(possible_directions.begin(), possible_directions.end(), 1), possible_directions.end());
+            }
             monsters[0].move_to(possible_directions[random_index]);
         }
     } else if(user_input == "h" || user_input == "help") {
