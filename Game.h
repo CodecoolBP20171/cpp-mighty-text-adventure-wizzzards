@@ -35,7 +35,7 @@ private:
     void addItemsToRooms();
     void obstacles_to_rooms(int room_number,
                             Obstacle* to_north, Obstacle* to_east, Obstacle* to_south, Obstacle* to_west);
-    void setPlayer(Player player);
+    void setPlayer(const Player &player);
     void setMonsters(Monster monster);
     bool step();
 

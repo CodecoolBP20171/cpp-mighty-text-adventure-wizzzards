@@ -12,7 +12,7 @@
 
 class Room {
 public:
-    Room(Area* area);
+    explicit Room(Area* area);
     void set_connected_rooms(Room** conn_rooms, int conn_room_size);
     Room* get_next_room(int room_number);
     Area* get_area();

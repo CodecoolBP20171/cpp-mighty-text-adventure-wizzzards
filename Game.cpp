@@ -67,15 +67,7 @@ void Game::loadRooms() {
 
     addItemsToRooms();
 
-    obstacles_to_rooms(0, nullptr, nullptr, nullptr, nullptr);
-    obstacles_to_rooms(1, nullptr, nullptr, nullptr, nullptr);
-    obstacles_to_rooms(2, nullptr, nullptr, nullptr, nullptr);
     obstacles_to_rooms(3, nullptr, &obstacles[0], nullptr, nullptr);
-    obstacles_to_rooms(4, nullptr, nullptr, nullptr, nullptr);
-    obstacles_to_rooms(5, nullptr, nullptr, nullptr, nullptr);
-    obstacles_to_rooms(6, nullptr, nullptr, nullptr, nullptr);
-    obstacles_to_rooms(7, nullptr, nullptr, nullptr, nullptr);
-
 }
 
 void Game::connect_rooms(int room_number, Room* n_room, Room* e_room, Room* s_room, Room* w_room) {
@@ -108,7 +100,7 @@ void Game::obstacles_to_rooms(int room_number, Obstacle* to_north, Obstacle* to_
 }
 
 
-void Game::setPlayer(Player player) {
+void Game::setPlayer(const Player &player) {
     this->player = player;
 }
 

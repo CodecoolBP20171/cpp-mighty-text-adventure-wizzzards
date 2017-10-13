@@ -4,14 +4,9 @@
 
 #include "Monster.h"
 
-Monster::Monster() {
-    current_room = nullptr;
-}
+Monster::Monster():current_room(), name() {}
 
-Monster::Monster(Room* room, string name) {
-    current_room = room;
-    this->name = name;
-}
+Monster::Monster(Room* room, string name):current_room(room), name(name) {}
 
 void Monster::move_to(int direction) {
     current_room = current_room->get_next_room(direction);

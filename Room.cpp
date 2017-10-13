@@ -4,7 +4,7 @@
 
 #include "Room.h"
 
-Room::Room(Area* area):area(area) {
+Room::Room(Area* area):area(area), connected_rooms(), room_obstacles() {
 }
 
 Area *Room::get_area() {

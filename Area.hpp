@@ -7,7 +7,7 @@ using namespace std;
 class Area
 {
 public:
-    Area(const string& description) : description(description) {}
+    explicit Area(const string& description) : description(description) {}
     const string getDesc(){
         return description;
     }

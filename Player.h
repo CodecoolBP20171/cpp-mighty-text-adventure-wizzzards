@@ -12,7 +12,8 @@
 class Player {
 public:
     Player();
-    Player(Room* room);
+
+    explicit Player(Room* room);
     void move_to(int direction);
     Room* get_current_room();
     void pick_item(Item* item);
