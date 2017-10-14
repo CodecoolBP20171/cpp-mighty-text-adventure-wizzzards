@@ -111,7 +111,8 @@ void UserInterface::player_selected_direction(string &user_input, int &selected_
 void UserInterface::interact_with_obstacles(Player &player, int selected_direction) const {
     bool you_can_go = false;
     for(auto inventory_item: player.get_inventory()){
-        if(inventory_item->use_item_on_obstacle() ==  current_room_obstacle(player, selected_direction)){
+        if(inventory_item->use_item_on_obstacle()
+           && inventory_item->use_item_on_obstacle() == current_room_obstacle(player, selected_direction)){
             cout << "// You used the " << inventory_item->get_name();
             cout << " to go through the " << inventory_item->use_item_on_obstacle()->get_name();
             cout << " //" << endl;
